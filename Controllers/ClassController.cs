@@ -1,14 +1,13 @@
-﻿using System;
+﻿using IM_Api.Db;
+using IM_Api.Filters;
+using IM_Api.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using IM_Api.Db;
-using IM_Api.Models;
-using IM_Api.Filters;
-using Microsoft.AspNetCore.Authorization;
 
 namespace IM_Api.Controllers
 {
@@ -28,7 +27,7 @@ namespace IM_Api.Controllers
         [Authorize]
         public async Task<ActionResult<List<Class>>> GetClass()
         {      
-            ImUser curuser = _context.Users.Where(r => r.Email == User.Identity.Name).FirstOrDefault();
+            ImUser curuser =  _context.Users.Where(r => r.Email == User.Identity.Name).FirstOrDefault();
 
             if (curuser == null)
             {

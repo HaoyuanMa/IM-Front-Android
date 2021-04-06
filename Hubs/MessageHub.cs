@@ -1,14 +1,13 @@
-﻿using IM_Api.Filters;
+﻿using IM_Api.Db;
 using IM_Api.Models;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using IM_Api.Db;
-using Microsoft.AspNetCore.Cors;
 
 namespace IM_Api.Hubs
 {
