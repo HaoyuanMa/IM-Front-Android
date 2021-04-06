@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="login">
+            <a>Email:</a>
+            <input v-model="username">
+            <br>
+            <a>Password:</a>
+            <input v-model="password">
+            <br>
+            <button id="loginbtn" @click="Login">Login</button>
+        </div>
+        <div class="choosemodel" v-if="choosemodel">
+            <h3>Choose Model:</h3>
+            <br>
+            <button @click="SetModel(1)"><h3>Chat</h3></button>
+            <button @click="SetModel(2)"><h3>Broadcast</h3></button>
+            <button @click="SetModel(3)"><h3>Chatroom</h3></button>
+        </div>
+
+        <div class="chat" v-if="ischat">
+            <div style="float: left;" class="users">
+                <a>User:</a>
+                <br>
+                <ol>
+                    <li v-for="user in loginusers">
+                        <a @click="SetChatUser(user)"> {{user}} </a>
+                    </li>
+                </ol>
+            </div>
+            <div style="float: left; width: 150px;">|</div>
+            <div class="chatrecieve" style="float: left;">
+                <a>Message:</a>
+                <br>
+                <ol>
+                    <li v-for="m in messages">
+                        <a>{{ m }}</a>
+                    </li>
+                </ol>
+            </div>
+            <div style="float: left; width: 150px;">|</div>
+            <div style="float: left;" class="send">
+                <a>Sendto:</a>
+                <br>
+                {{ chatuser }}
+                <br>
+                <a>Message:</a>
+                <br>
+                <textarea v-model="message"></textarea>
+                <br>
+                <button @click="SendChat">Send</button>
+            </div>
+        </div>
+
+        <div class="broadcast" v-if="isbroadcast">
+            <div style="float: left;" class="users">
+                <a>Users</a>
+                <br>
+                <ol>
+                    <li v-for="user in loginusers">
+                        <a @click="Choose(user)"> {{user}} </a>
+                    </li>
+                </ol>
+            </div>
+            
+            <div style="float: left; width: 150px;">|</div>
+            <div class="chatrecieve" style="float: left;">
+                <a>Message:</a>
+                <br>
+                <ol>
+                    <li v-for="m in messages">
+                        <a>{{ m }}</a>
+                    </li>
+                </ol>
+            </div>
+            <div style="float: left; width: 150px;">|</div>
+            <div style="float: left;" class="send">
+                <a>Sendto:</a>
+                <ol>
+                    <li v-for="user in chooseusers">
+                        <a @click="Remove(user)"> {{ user }} </a>        
+                    </li>
+                </ol>
+                <br>
+                <a>Message:</a>
+                <br>
+                <textarea v-model="message"></textarea>
+                <br>
+                <button @click="SendBroadcast">Send</button>
+            </div>
+        </div>
+
+        <div class="chatroom" v-if="ischatroom">
+            <div style="float: left;" class="users">
+                <a>Users</a>
+                <br>
+                <ol>
+                    <li v-for="user in loginusers">
+                        {{user}} 
+                    </li>
+                </ol>
+            </div>
+            
+            <div style="float: left; width: 150px;">|</div>
+            <div class="chatrecieve" style="float: left;">
+                <a>Message:</a>
+                <br>
+                <ol>
+                    <li v-for="m in messages">
+                        <a>{{ m }}</a>
+                    </li>
+                </ol>
+            </div>
+            <div style="float: left; width: 150px;">|</div>
+            <div style="float: left;" class="send">
+                <br>
+                <a>Message:</a>
+                <br>
+                <textarea v-model="message"></textarea>
+                <br>
+                <button @click="SendChatroom">Send</button>
+            </div>
+        </div>
+        
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="Scripts/microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="Scripts/microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="Scripts/jquery/jquery.min.js"></script>
+<script>
+
+    var connection = null; 
+
+    var app = new Vue({
+        el: "#app",
+        data: {
+            username: "",
+            password: "",
+            token: "",
+            touser: "",
+            message: "",
+            choosemodel: false,
+            ischat:false,
+            isbroadcast:false,
+            ischatroom:false,
+            chatuser:"",
+            loginusers: [],
+            chooseusers: [],
+            chatroomusers:[],
+            messages:[]
+            
+        },
+        methods: {
+            Login: function () {
+                //this.loginuser = new Set();
+               // this.chooseusers = new Set();
+                $("#loginbtn").replaceAll("<a>loading</a>");
+                var loginmodel = {
+                    "Email": this.username,
+                    "Password": this.password
+                }
+                var sendData = JSON.stringify(loginmodel);
+                //console.log(sendData);
+              
+                var self = this;
+                $.ajax({
+                    url: "/Account/Login",
+                    type: "post",
+                    contentType: "application/json",
+                    dataType: "text",
+                    data: sendData,
+                    async: false,
+                    success: function (jwt) {
+                        self.token = jwt;
+                        //alert(jwt);
+                        $(".login").remove();
+                        globalThis.connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:12165/Hubs/MessageHub", { accessTokenFactory: () => jwt }).build();
+                        
+                        globalThis.connection.on("ReceiveMessage", function (x) {
+
+                            console.log(x);
+                            var m = x.from+" says: "+x.content;
+                            self.messages.push(m);
+                        });
+                        globalThis.connection.on("GetUsers", function (users) {
+                            users.forEach(user => {
+                                self.loginusers.push(user); 
+                            });
+                                                     
+                            console.log(user);
+
+                        });
+
+                        
+
+                        globalThis.connection.on("GetChatroomUser",function(user){
+                            self.chatroomusers.push(user);
+                        })
+
+                        globalThis.connection.on("RemoveChatroomUser",function(user){
+                            var array = self.chatroomusers;
+                            for(var i=0;i<array.length;i++){
+                                if(array[i]==user)
+                                    array.splice(i,1);
+                            }
+                        })
+
+                        globalThis.connection.on("RemoveUser", function (user) {
+
+                            console.log(user);
+                            var array = self.loginusers;
+                            for(var i=0;i<array.length;i++){
+                                if(array[i]==user)
+                                    array.splice(i,1);
+                            }
+                            
+
+                        });
+                        globalThis.connection.start();
+                        self.choosemodel = true;
+                    },
+                    error: function () {
+                        alert("Login Failed");
+                    }
+                });
+            },
+            SendChat: function () {
+                var m = {
+                    "To": this.chatuser,
+                    "From": this.username,
+                    "Content": this.message
+                };
+                //alert("send");
+                globalThis.connection.invoke("SendMessage", m);
+            },
+            SendBroadcast: function(){
+                var b = {
+                    "To": this.chooseusers,
+                    "From": this.username,
+                    "Content": this.message
+                };
+                globalThis.connection.invoke("SendBroadcast", b);
+            },
+            SendChatroom: function(){
+                var r = {
+                    "From": this.username,
+                    "Content" : this.message
+                };
+                globalThis.connection.invoke("SendChatroom",r);
+            },
+            SetModel: function(model){
+                this.choosemodel=false;
+                if(model==1)
+                    this.ischat = true;
+                else if(model==2)
+                    this.isbroadcast = true;
+                else{
+                    this.ischatroom = true;
+                    globalThis.connection.invoke("JoinChatroom",this.username);
+                }
+                    
+            },
+            SetChatUser: function(user){
+                this.chatuser = user;
+            },
+            Choose: function(user){
+                console.log(this.chooseusers);
+                this.chooseusers.push(user);
+            },
+            Remove: function(user){
+                var array = this.chooseusers;
+                for(var i=0;i<array.length;i++){
+                    if(array[i]==user)
+                    array.splice(i,1);
+                }
+            }
+        }
+        
+    });
+    
+
+    
+</script>
+</html>

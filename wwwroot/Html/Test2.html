@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <textarea></textarea>
+        <br />
+        <button id="send">click to send</button>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script>
+
+
+    var token = "";
+    const connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:12165/Hubs/MessageHub", { accessTokenFactory: () => this.token}).build();
+
+
+    connection.on("ReceiveMessage", function (x) {
+
+           console.log(x);
+
+     });
+
+   connection.start();
+
+    m = {
+        "Id": 1,
+        "To": "12654567@qq.com",
+        "From": "132654567@qq.com",
+        "Content": "hello"
+    }
+    var btn = document.getElementById("send");
+
+    btn.addEventListener("mousedown", function () {
+        //alert("ok");
+        connection.invoke("SendMessage", m);
+    })
+
+</script>
+</html>

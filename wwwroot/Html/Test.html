@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <a>Username:</a>
+            <input v-model="username">
+            <br>
+            <a>Password:</a>    
+            <input v-model="password">
+            <br>
+            <button id="login" @click="Login">Login</button>
+            </div>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script>
+    
+    var app = new Vue({
+        el: "#app",
+        data: {
+            username:"",
+            password:"",
+            token:""           
+        },
+        methods:{
+           Login:function(){
+               loginmodel = {
+                   "Email": this.username,
+                   "Password": this.password
+               }
+            $.ajax({
+                url: ":http://localhost:12165/Account/Login",
+                type: "post",
+                dataFilter:"json",
+                data: loginmodel,
+                async: false,
+                success: function (jwt) {
+                    token = jwt;
+                    alert(token)
+                },
+                error: function () {
+                    alert("Login Failed");
+                }
+            });
+           }
+        },
+    });
+    
+    var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtYWhhb3l1YW4iLCJuYW1lIjoiMTI2NTQ1NjdAcXEuY29tIiwibmJmIjoxNjE3MzQ1NTY3LCJhdWQiOiJ3ZWIiLCJleHAiOjE2MTczNjcxNjcsImlhdCI6MTYxNzM0NTU2N30.QRb736GeQvdM1yNlu7E7780xs4Ifl5cbwZEhDCFKyjw";
+
+    const connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:12165/Hubs/MessageHub", { accessTokenFactory: () => this.token}).build();
+
+
+    connection.on("ReceiveMessage", function (x) {
+            
+           console.log(x);
+            
+     });
+
+   connection.start();
+
+    m = {
+        "Id": 1,
+        "From": "12654567@qq.com",
+        "To": "132654567@qq.com",
+        "Content": "hello"
+    }
+    var btn = document.getElementById("send");
+
+    btn.addEventListener("mousedown", function () {
+        //alert("ok");
+        connection.invoke("SendMessage", m);
+    })
+
+</script>
+</html>
