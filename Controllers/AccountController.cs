@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace IM_Api.Controllers
 {
-    [EnableCors("any")]
+    //[EnableCors("any")]
     [Route("[controller]")]
     [ApiController]
     public class AccountController : ControllerBase

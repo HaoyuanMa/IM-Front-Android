@@ -13,7 +13,7 @@ namespace IM_Api.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(14, MinimumLength = 4)]
+        [StringLength(14, MinimumLength = 1)]
         public string Username { get; set; }
 
         [Required]

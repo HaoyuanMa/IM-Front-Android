@@ -91,11 +91,11 @@ namespace IM_Api
 
                   }
                   );
-            /*
-            services.AddCors(options => {
+            
+            /*services.AddCors(options => {
                 options.AddPolicy("any", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
-            });
-            */
+            });*/
+            
 
             services.AddAuthorization();
 
@@ -124,7 +124,7 @@ namespace IM_Api
 
             app.UseRouting();
 
-            //app.UseCors("any");
+           /* app.UseCors("any");*/
 
             app.UseAuthentication();
             app.UseAuthorization();

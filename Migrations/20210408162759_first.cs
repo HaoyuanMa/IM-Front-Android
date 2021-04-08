@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IM_Api.Migrations
 {
-    public partial class group : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -79,6 +79,17 @@ namespace IM_Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Groups", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LoginUsers",
+                columns: table => new
+                {
+                    UserEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoginUsers", x => x.UserEmail);
                 });
 
             migrationBuilder.CreateTable(
@@ -335,6 +346,9 @@ namespace IM_Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "GroupImUser");
+
+            migrationBuilder.DropTable(
+                name: "LoginUsers");
 
             migrationBuilder.DropTable(
                 name: "Messages");

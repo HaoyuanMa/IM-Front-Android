@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IM_Api.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20210404060718_loginusers")]
-    partial class loginusers
+    [Migration("20210408162759_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,6 +68,16 @@ namespace IM_Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Classes");
+                });
+
+            modelBuilder.Entity("IM_Api.Models.Email", b =>
+                {
+                    b.Property<string>("UserEmail")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserEmail");
+
+                    b.ToTable("LoginUsers");
                 });
 
             modelBuilder.Entity("IM_Api.Models.Group", b =>

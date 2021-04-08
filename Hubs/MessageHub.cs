@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace IM_Api.Hubs
 {
 
-    [EnableCors("any")]
+    //[EnableCors("any")]
     [Authorize]
     public class MessageHub : Hub
     {
