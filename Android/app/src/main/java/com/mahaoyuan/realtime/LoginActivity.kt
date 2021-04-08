@@ -4,6 +4,9 @@ import android.app.VoiceInteractor
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -16,14 +19,27 @@ import java.lang.Exception
 import kotlin.concurrent.thread
 
 class LoginActivity : AppCompatActivity() {
+
+    val handler = object : Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
+            when(msg.what){
+                1 ->  {
+                    val intent = Intent(this@LoginActivity,MainActivity::class.java)
+                    startActivity(intent)
+                }
+
+            }
+            super.handleMessage(msg)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
         setContentView(R.layout.activity_login)
         val loginButton : Button = findViewById(R.id.login)
         loginButton.setOnClickListener{
             login()
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
         }
 
     }
@@ -55,8 +71,13 @@ class LoginActivity : AppCompatActivity() {
                 throw (e)
             }
             token  = data.body?.string()
-            if(data.code==200)
+            if(data.code==200){
                 UserInfo.token = token
+                val msg = Message()
+                msg.what = 1
+                handler.sendMessage(msg)
+            }
+
         }
     }
 }
