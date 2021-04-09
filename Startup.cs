@@ -1,23 +1,16 @@
 using IM_Api.Db;
-using IM_Api.Tools;
 using IM_Api.Hubs;
-using IM_Api.Models;
+using IM_Api.Tools;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,7 +31,7 @@ namespace IM_Api
             services.AddDbContextPool<UserDbContext>(
              options => options.UseSqlServer(Configuration["ConnectionStrings"]));
 
-            services.AddIdentity<ImUser, IdentityRole>().AddEntityFrameworkStores<UserDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<UserDbContext>();
 
             services.Configure<IdentityOptions>(options =>
             {

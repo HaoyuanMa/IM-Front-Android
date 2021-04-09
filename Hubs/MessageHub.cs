@@ -1,12 +1,10 @@
 ﻿using IM_Api.Db;
 using IM_Api.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace IM_Api.Hubs
@@ -17,12 +15,12 @@ namespace IM_Api.Hubs
     public class MessageHub : Hub
     {
 
-        private UserManager<ImUser> userManager;
+        private UserManager<IdentityUser> userManager;
         
         private UserDbContext dbcontext;
 
 
-        public MessageHub(UserDbContext _context, UserManager<ImUser> _userManager)
+        public MessageHub(UserDbContext _context, UserManager<IdentityUser> _userManager)
         {
             this.userManager = _userManager;
             this.dbcontext = _context;
@@ -35,19 +33,22 @@ namespace IM_Api.Hubs
             curuser.Add(email);
             Clients.All.SendAsync("GetUsers", curuser);
 
-            List<Email> users = dbcontext.LoginUsers.ToList();
-            List<string> emails = new List<string>();
+            List<string> users = UsersList.LoginUsers;
+            /*List<string> emails = new List<string>();
             foreach(Email u in users)
             {
                 emails.Add(u.UserEmail);
+            }*/
+            Clients.Caller.SendAsync("GetUsers", users);
+            if(!UsersList.LoginUsers.Contains(email))
+            {
+                UsersList.LoginUsers.Add(email);
             }
-            Clients.Caller.SendAsync("GetUsers", emails);
-
-            if(dbcontext.LoginUsers.Find(email)==null)
+            /*if(dbcontext.LoginUsers.Find(email)==null)
             {
                 dbcontext.LoginUsers.Add(new Email { UserEmail = email });
                 dbcontext.SaveChanges();
-            }
+            }*/
                 
             return base.OnConnectedAsync();
         }
@@ -56,10 +57,15 @@ namespace IM_Api.Hubs
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            Clients.All.SendAsync("RemoveUser", Context.User.Identity.Name);
-            Email user = dbcontext.Find<Email>(Context.User.Identity.Name);
-            dbcontext.LoginUsers.Remove(user);
-            dbcontext.SaveChangesAsync();
+            var email = Context.User.Identity.Name;
+            Clients.All.SendAsync("RemoveUser", email);
+            if (UsersList.LoginUsers.Contains(email))
+            {
+                UsersList.LoginUsers.Remove(email);
+            }
+            //Email user = dbcontext.Find<Email>(Context.User.Identity.Name);
+            //dbcontext.LoginUsers.Remove(user);
+            //dbcontext.SaveChangesAsync();
             Groups.RemoveFromGroupAsync(Context.ConnectionId, "mygroup");
             return base.OnDisconnectedAsync(exception);
         }

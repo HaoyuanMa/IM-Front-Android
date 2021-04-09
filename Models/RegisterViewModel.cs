@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace IM_Api.Models
 {
@@ -20,10 +16,5 @@ namespace IM_Api.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public int Sex { get; set; }
-
-        public DateTime BirthDay { get; set; }
-
-        public string Place { get; set; }
     }
 }

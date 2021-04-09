@@ -1,4 +1,5 @@
 ﻿using IM_Api.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,16 +16,7 @@ namespace IM_Api.Db
 
         }
 
-        public DbSet<ImUser> Users { get; set; }
-
-        public DbSet<Group> Groups { get; set; }
-
-        public DbSet<Class> Classes { get; set; }
-
-        public DbSet<Message> Messages { get; set; }
-
-        public DbSet<Email> LoginUsers { get; set; }
-
+        public DbSet<IdentityUser> Users { get; set; }
 
     }
 }
