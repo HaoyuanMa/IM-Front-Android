@@ -84,11 +84,12 @@ namespace IM_Api
 
                   }
                   );
-            
+            services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(new []{ "http://localhost:8080" })));
+
             /*services.AddCors(options => {
                 options.AddPolicy("any", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
             });*/
-            
+
 
             services.AddAuthorization();
 
@@ -117,7 +118,7 @@ namespace IM_Api
 
             app.UseRouting();
 
-           /* app.UseCors("any");*/
+            app.UseCors("cors");
 
             app.UseAuthentication();
             app.UseAuthorization();
