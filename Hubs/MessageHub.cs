@@ -28,27 +28,6 @@ namespace IM_Api.Hubs
 
         public override Task OnConnectedAsync()
         {
-            string email = Context.User.Identity.Name;
-            List<string> curuser = new List<string>();
-            curuser.Add(email);
-            Clients.All.SendAsync("GetUsers", curuser);
-
-            List<string> users = UsersList.LoginUsers;
-            /*List<string> emails = new List<string>();
-            foreach(Email u in users)
-            {
-                emails.Add(u.UserEmail);
-            }*/
-            Clients.Caller.SendAsync("GetUsers", users);
-            if(!UsersList.LoginUsers.Contains(email))
-            {
-                UsersList.LoginUsers.Add(email);
-            }
-            /*if(dbcontext.LoginUsers.Find(email)==null)
-            {
-                dbcontext.LoginUsers.Add(new Email { UserEmail = email });
-                dbcontext.SaveChanges();
-            }*/
                 
             return base.OnConnectedAsync();
         }
@@ -59,15 +38,64 @@ namespace IM_Api.Hubs
         {
             var email = Context.User.Identity.Name;
             Clients.All.SendAsync("RemoveUser", email);
-            if (UsersList.LoginUsers.Contains(email))
+            if (UsersList.ChatUsers.Contains(email))
             {
-                UsersList.LoginUsers.Remove(email);
+                UsersList.ChatUsers.Remove(email);
             }
-            //Email user = dbcontext.Find<Email>(Context.User.Identity.Name);
-            //dbcontext.LoginUsers.Remove(user);
-            //dbcontext.SaveChangesAsync();
+            if (UsersList.BroadcastUsers.Contains(email))
+            {
+                UsersList.BroadcastUsers.Remove(email);
+            }
+            if (UsersList.ChatRoomUsers.Contains(email))
+            {
+                UsersList.ChatRoomUsers.Remove(email);
+            }
             Groups.RemoveFromGroupAsync(Context.ConnectionId, "mygroup");
             return base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task SetOnline(string type)
+        {
+            string email = Context.User.Identity.Name;
+
+            List<string> curuser = new List<string>();
+            curuser.Add(email);
+
+
+            if (type == "chat")
+            {
+                List<string> users = UsersList.ChatUsers;
+                
+                if (!UsersList.ChatUsers.Contains(email))
+                {
+                    await Clients.All.SendAsync("GetChatUsers", curuser);
+                    await Clients.Caller.SendAsync("GetChatUsers", users);
+                    UsersList.ChatUsers.Add(email);
+                }
+            }
+            else if(type == "broadcast")
+            {
+                List<string> users = UsersList.BroadcastUsers;
+               
+                if (!UsersList.BroadcastUsers.Contains(email))
+                {
+                    await Clients.All.SendAsync("GetBroadcastUsers", curuser);
+                    await Clients.Caller.SendAsync("GetBroadcastUsers", users);
+                    UsersList.BroadcastUsers.Add(email);
+                }
+                
+            }
+            else
+            {
+                List<string> users = UsersList.ChatRoomUsers;
+                
+                if (!UsersList.ChatRoomUsers.Contains(email))
+                {
+                    await Clients.All.SendAsync("GetChatRoomUsers", curuser);
+                    await Clients.Caller.SendAsync("GetChatRoomUsers", users);
+                    UsersList.ChatRoomUsers.Add(email);
+                }
+            }         
         }
 
         public async Task JoinChatroom(string user)
@@ -78,8 +106,7 @@ namespace IM_Api.Hubs
         }
 
         public async Task RemoveFromChatroom(string user)
-        {
-            
+        {  
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "mygroup");
                 //Clients.Group("mygroup").SendAsync("RemoveChatroomUser", Context.User.Identity.Name);
         }
@@ -89,18 +116,11 @@ namespace IM_Api.Hubs
             //var target = userManager.FindByEmailAsync(message.To);
             string name = Context.User.Identity.Name;
             //Clients.All.SendAsync("ReceiveMessage", message);
-            return Clients.User(message.To).SendAsync("ReceiveMessage", message);
+            if(message.Type == "chatroom")
+                return Clients.Group("mygroup").SendAsync("ReceiveMessage", message);
+            else
+                return Clients.Users(message.To).SendAsync("ReceiveMessage", message);
         }
 
-        public Task SendBroadcast(Broadcast broadcast)
-        {
-
-            return Clients.Users(broadcast.To).SendAsync("ReceiveMessage", broadcast);
-        }
-
-        public Task SendChatroom(Message message)
-        {
-            return Clients.Group("mygroup").SendAsync("ReceiveMessage", message);
-        }
     }
 }

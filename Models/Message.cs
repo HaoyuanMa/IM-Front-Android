@@ -9,8 +9,9 @@ namespace IM_Api.Models
 {
     public class Message
     {  
+        public string Type { get; set; }
         public string From { get; set; }
-        public string To { get; set; }
+        public List<string> To { get; set; }
         public string Content { get; set; }
     }
 }
