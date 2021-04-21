@@ -95,21 +95,10 @@ namespace IM_Api.Hubs
                     await Clients.Caller.SendAsync("GetChatRoomUsers", users);
                     UsersList.ChatRoomUsers.Add(email);
                 }
+                await Groups.AddToGroupAsync(Context.ConnectionId, "mygroup");
             }         
         }
 
-        public async Task JoinChatroom(string user)
-        {
-            
-            await Groups.AddToGroupAsync(Context.ConnectionId, "mygroup");
-                //Clients.Group("mygroup").SendAsync("GetChatroomUser", Context.User.Identity.Name);
-        }
-
-        public async Task RemoveFromChatroom(string user)
-        {  
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "mygroup");
-                //Clients.Group("mygroup").SendAsync("RemoveChatroomUser", Context.User.Identity.Name);
-        }
 
         public Task SendMessage(Message message)
         {
