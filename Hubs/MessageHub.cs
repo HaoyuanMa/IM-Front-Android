@@ -101,7 +101,7 @@ namespace IM_Api.Hubs
 
 
         public Task SendMessage(Message message)
-        {
+         {
             //var target = userManager.FindByEmailAsync(message.To);
             string name = Context.User.Identity.Name;
             //Clients.All.SendAsync("ReceiveMessage", message);

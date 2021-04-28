@@ -96,6 +96,7 @@ namespace IM_Api
             services.AddSignalR(options=>
             {
                 //options.AddFilter<AuthAttribute>();
+                options.MaximumReceiveMessageSize = 200 * 1024;
             });
             services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
 

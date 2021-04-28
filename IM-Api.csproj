@@ -36,13 +36,4 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\Html\JavaScript.js" />
-    <None Include="wwwroot\Scripts\microsoft\signalr\dist\browser\signalr.js" />
-    <None Include="wwwroot\Scripts\microsoft\signalr\dist\browser\signalr.min.js" />
-    <None Include="wwwroot\Scripts\signalr.js\jquery.signalR.js" />
-    <None Include="wwwroot\Scripts\signalr.js\jquery.signalR.min.js" />
-    <None Include="wwwroot\Html\Test.html" />
-  </ItemGroup>
-
 </Project>
