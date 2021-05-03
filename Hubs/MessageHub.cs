@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace IM_Api.Hubs
@@ -100,16 +103,67 @@ namespace IM_Api.Hubs
         }
 
 
-        public Task SendMessage(Message message)
+        public async Task SendMessage(Message message)
          {
             //var target = userManager.FindByEmailAsync(message.To);
             string name = Context.User.Identity.Name;
             //Clients.All.SendAsync("ReceiveMessage", message);
             if(message.Type == "chatroom")
-                return Clients.Group("mygroup").SendAsync("ReceiveMessage", message);
+                await Clients.Group("mygroup").SendAsync("ReceiveMessage", message);
             else
-                return Clients.Users(message.To).SendAsync("ReceiveMessage", message);
+                await Clients.Users(message.To).SendAsync("ReceiveMessage", message);
         }
 
+        public async Task UploadStream(IAsyncEnumerable<BinData> stream)
+        {
+            var path = Directory.GetCurrentDirectory();
+            FileStream fileStream = null;
+            BinaryWriter binaryWriter = null;
+            await foreach (var item in stream)
+            {
+                if(item.Order == 0)
+                {
+                    var dir = path + "\\UploadFiles\\" + item.From;
+                    System.Diagnostics.Debug.WriteLine(dir);
+                    if (!Directory.Exists(dir)) ;
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    var file = dir + "\\" + item.Name;
+                    fileStream = new FileStream(file, FileMode.Append, FileAccess.Write);
+                    binaryWriter = new BinaryWriter(fileStream);
+                }
+                string[] strs = item.Data.Split(',');
+                byte[] bytes = Convert.FromBase64String(strs[1]);
+                binaryWriter.Write(bytes);
+            }
+            binaryWriter.Close();
+            fileStream.Close();
+        }
+
+        public async IAsyncEnumerable<BinData> DownLoadStream(string user,long count,[EnumeratorCancellation]CancellationToken cancellationToken)
+        {
+            for (long i = 0; i < count; i++)
+            {
+                // Check the cancellation token regularly so that the server will stop
+                // producing items if the client disconnects.
+                cancellationToken.ThrowIfCancellationRequested();
+
+                while(UsersList.FileBuffer[user].Count == 0)
+                {
+
+                }
+
+
+                yield return UsersList.FileBuffer[user].Dequeue();
+
+                // Use the cancellationToken in other APIs that accept cancellation
+                // tokens so the cancellation can flow down to them.
+                
+            }
+        }
     }
+
+
 }
+

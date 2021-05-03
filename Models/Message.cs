@@ -14,5 +14,6 @@ namespace IM_Api.Models
         public List<string> To { get; set; }
         public string ContentType { get; set; }
         public string Content { get; set; }
+        public long FileSize { get; set; }
     }
 }

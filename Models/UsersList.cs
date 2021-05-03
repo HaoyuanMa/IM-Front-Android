@@ -7,5 +7,6 @@ namespace IM_Api.Models
         public static List<string> ChatUsers = new List<string>();
         public static List<string> BroadcastUsers = new List<string>();
         public static List<string> ChatRoomUsers = new List<string>();
+        public static Dictionary<string, Queue<BinData>> FileBuffer = new Dictionary<string, Queue<BinData>>();
     }
 }
