@@ -115,7 +115,12 @@ namespace IM_Api
             }
 
             
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions { 
+                OnPrepareResponse = c =>
+                {
+                    c.Context.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:8080");
+                }
+            });
 
             app.UseRouting();
 

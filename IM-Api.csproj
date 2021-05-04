@@ -37,7 +37,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UploadFiles\" />
+    <Folder Include="wwwroot\UploadFiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\UploadFiles\1%40q.q\3728adfa0b2ab884adbdd02172ab6f76991d60c0d228b73491ec42ff84e109b7.0.jpg" />
+    <None Include="wwwroot\UploadFiles\1%40q.q\67935c37dd2af91705002ab720a06d241d18302b6709b7480592760ba6506800.0.jpg" />
   </ItemGroup>
 
 </Project>

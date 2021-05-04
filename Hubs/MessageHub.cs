@@ -123,7 +123,7 @@ namespace IM_Api.Hubs
             {
                 if(item.Order == 0)
                 {
-                    var dir = path + "\\UploadFiles\\" + item.From;
+                    var dir = path + "\\wwwroot\\UploadFiles\\" + item.From;
                     System.Diagnostics.Debug.WriteLine(dir);
                     if (!Directory.Exists(dir)) ;
                     {
@@ -133,12 +133,13 @@ namespace IM_Api.Hubs
                     fileStream = new FileStream(file, FileMode.Append, FileAccess.Write);
                     binaryWriter = new BinaryWriter(fileStream);
                 }
-                string[] strs = item.Data.Split(',');
-                byte[] bytes = Convert.FromBase64String(strs[1]);
+                var str = item.Data.Split(',')[1];
+                byte[] bytes = Convert.FromBase64String(str);
                 binaryWriter.Write(bytes);
             }
             binaryWriter.Close();
             fileStream.Close();
+            return;
         }
 
         public async IAsyncEnumerable<BinData> DownLoadStream(string user,long count,[EnumeratorCancellation]CancellationToken cancellationToken)
