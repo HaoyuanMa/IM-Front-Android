@@ -14,7 +14,7 @@ namespace IM_Api.Hubs
 {
 
     //[EnableCors("any")]
-    [Authorize]
+    //[Authorize]
     public class MessageHub : Hub
     {
 
@@ -114,7 +114,7 @@ namespace IM_Api.Hubs
                 await Clients.Users(message.To).SendAsync("ReceiveMessage", message);
         }
 
-        public async Task UploadStream(IAsyncEnumerable<BinData> stream)
+        public async Task UploadFile(IAsyncEnumerable<BinData> stream)
         {
             var path = Directory.GetCurrentDirectory();
             FileStream fileStream = null;
@@ -124,7 +124,7 @@ namespace IM_Api.Hubs
                 if(item.Order == 0)
                 {
                     var dir = path + "\\wwwroot\\UploadFiles\\" + item.From;
-                    System.Diagnostics.Debug.WriteLine(dir);
+                    //System.Diagnostics.Debug.WriteLine(dir);
                     if (!Directory.Exists(dir)) ;
                     {
                         Directory.CreateDirectory(dir);
@@ -142,27 +142,32 @@ namespace IM_Api.Hubs
             return;
         }
 
-        public async IAsyncEnumerable<BinData> DownLoadStream(string user,long count,[EnumeratorCancellation]CancellationToken cancellationToken)
+        public async IAsyncEnumerable<string> DownLoadStream(int delay, [EnumeratorCancellation]CancellationToken cancellationToken)
         {
-            for (long i = 0; i < count; i++)
+
+            while (await Channels.DataChannel.Reader.WaitToReadAsync())
             {
-                // Check the cancellation token regularly so that the server will stop
-                // producing items if the client disconnects.
                 cancellationToken.ThrowIfCancellationRequested();
-
-                while(UsersList.FileBuffer[user].Count == 0)
+                if (Channels.DataChannel.Reader.TryRead(out var message))
                 {
-
+                    //System.Diagnostics.Debug.WriteLine("send: " + message);
+                    yield return message;
                 }
+                //await Task.Delay(delay, cancellationToken);
+            }
 
+        }
 
-                yield return UsersList.FileBuffer[user].Dequeue();
-
-                // Use the cancellationToken in other APIs that accept cancellation
-                // tokens so the cancellation can flow down to them.
-                
+        public async Task UploadStream(IAsyncEnumerable<string> stream)
+        {
+            await foreach (var item in stream)
+            {
+                //System.Diagnostics.Debug.WriteLine("recevie: " + item);
+                await Channels.DataChannel.Writer.WriteAsync(item);
             }
         }
+
+
     }
 
 
