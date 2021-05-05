@@ -27,7 +27,6 @@ class LoginActivity : AppCompatActivity() {
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     startActivity(intent)
                 }
-
             }
             super.handleMessage(msg)
         }
@@ -77,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
                 msg.what = 1
                 handler.sendMessage(msg)
             }
-
+            token?.let { Log.i("mhy", it) }
         }
     }
 }

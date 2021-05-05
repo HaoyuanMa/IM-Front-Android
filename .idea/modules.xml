@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Android.iml" filepath="$PROJECT_DIR$/.idea/Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RealTime.iml" filepath="$PROJECT_DIR$/.idea/modules/RealTime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/RealTime.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/RealTime.app.iml" />
     </modules>
   </component>
 </project>
