@@ -1,6 +1,5 @@
-package com.mahaoyuan.realtime
+package com.mahaoyuan.realtime.activities
 
-import android.app.VoiceInteractor
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,9 +7,10 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import com.mahaoyuan.realtime.R
+import com.mahaoyuan.realtime.UserInfo
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             when(msg.what){
                 1 ->  {
-                    val intent = Intent(this@LoginActivity,MainActivity::class.java)
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -34,10 +34,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+        //init UserInfo
+        UserInfo.userEmail.value = ""
         setContentView(R.layout.activity_login)
         val loginButton : Button = findViewById(R.id.login)
         loginButton.setOnClickListener{
+
             login()
         }
 
@@ -71,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
             }
             token  = data.body?.string()
             if(data.code==200){
-                UserInfo.token = token
+                UserInfo.token.postValue(token.toString())
                 val msg = Message()
                 msg.what = 1
                 handler.sendMessage(msg)
