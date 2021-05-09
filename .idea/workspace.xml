@@ -29,18 +29,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3e2ae86-37cf-4dc8-b434-407dc5b9b031" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/ChatActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/viewmodels/ChatViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/LoginActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/UserInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/UserInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/ChatActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/ChatActivity.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +75,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="show.do.not.copy.http.proxy.settings.to.gradle" value="true" />
   </component>
   <component name="RecentsManager">
@@ -177,6 +171,14 @@
       <option name="presentableId" value="Default" />
       <updated>1620195903395</updated>
     </task>
+    <task id="LOCAL-00001" summary="add: basic activities&#10;try: start connection async">
+      <created>1620407072257</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1620407072258</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -191,7 +193,19 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add: basic activities&#10;try: start connection async" />
+    <option name="LAST_COMMIT_MESSAGE" value="add: basic activities&#10;try: start connection async" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="286" y="158" key="#PSD" timestamp="1620570347685">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="286" y="158" key="#PSD/0.0.1536.824@0.0.1536.824" timestamp="1620570347685" />
+    <state x="553" y="128" key="#com.intellij.ide.util.MemberChooser" timestamp="1620429551018">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="553" y="128" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1620429551018" />
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1620308925643">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -204,26 +218,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="158" key="AndroidProcessChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1620392830013" />
-    <state width="1492" height="210" key="GridCell.Tab.0.bottom" timestamp="1620391890375">
+    <state width="1492" height="160" key="GridCell.Tab.0.bottom" timestamp="1620468080060">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1492" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1620391890375" />
-    <state width="1492" height="210" key="GridCell.Tab.0.center" timestamp="1620391890375">
+    <state width="1492" height="160" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1620468080060" />
+    <state width="1492" height="160" key="GridCell.Tab.0.center" timestamp="1620468080059">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1492" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1620391890375" />
-    <state width="1492" height="210" key="GridCell.Tab.0.left" timestamp="1620391890375">
+    <state width="1492" height="160" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1620468080059" />
+    <state width="1492" height="160" key="GridCell.Tab.0.left" timestamp="1620468080059">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1492" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1620391890375" />
-    <state width="1492" height="210" key="GridCell.Tab.0.right" timestamp="1620391890375">
+    <state width="1492" height="160" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1620468080059" />
+    <state width="1492" height="160" key="GridCell.Tab.0.right" timestamp="1620468080060">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1492" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1620391890375" />
+    <state width="1492" height="160" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1620468080060" />
     <state x="475" y="132" key="RollbackChangesDialog" timestamp="1620308958995">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="475" y="132" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1620308958995" />
+    <state x="270" y="57" key="SettingsEditor" timestamp="1620570507808">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1620570507808" />
     <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1620309279041">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -236,5 +254,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="563" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1620195776769" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1620481263980">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1620481263980" />
   </component>
 </project>
