@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         val monitorButton : Button = findViewById(R.id.btn_monitor)
 
         chatButton.setOnClickListener {
-            val intent = Intent(this@MainActivity, ChatActivity::class.java)
+            val intent = Intent(this@MainActivity, UsersListActivity::class.java)
             startActivity(intent)
         }
         broadcastHostButton.setOnClickListener {

@@ -31,7 +31,7 @@ object UserInfo {
         userEmail.value = ""
         token.value = ""
         chatTo.value = ""
-        chatUsers.value = mutableListOf("mhy", "ly", "zhq", "lqf")
+        chatUsers.value = mutableListOf()
         broadcastUsers.value = mutableListOf()
         chatRoomUsers.value = mutableListOf()
         usersCount.value = 0
