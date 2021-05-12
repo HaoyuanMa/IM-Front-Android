@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
 import io.reactivex.Single
+import com.mahaoyuan.realtime.models.Message
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 
@@ -21,9 +22,10 @@ object UserInfo {
     val broadcastUsers = MutableLiveData<MutableList<String>>()
     val chatRoomUsers = MutableLiveData<MutableList<String>>()
     val usersCount = MutableLiveData<Int>()
-    val chatRecords = MutableLiveData<MutableList<String>>()
-    val broadcastRecords = MutableLiveData<MutableList<String>>()
-    val chatRoomRecords = MutableLiveData<MutableList<String>>()
+    val chatRecords = MutableLiveData<MutableList<Message>>()
+    val broadcastRecords = MutableLiveData<MutableList<Message>>()
+    val chatRoomRecords = MutableLiveData<MutableList<Message>>()
+    val recordCount = MutableLiveData<Int>()
 
     init {
         mode.value = ""
@@ -35,7 +37,7 @@ object UserInfo {
         broadcastUsers.value = mutableListOf()
         chatRoomUsers.value = mutableListOf()
         usersCount.value = 0
-        chatRecords.value = mutableListOf()
+        chatRecords.value = mutableListOf(Message("chat","mhy", mutableListOf("liyi"),"text","hello",0),Message("chat","mhy", mutableListOf("liyi"),"text","hello",0))
         broadcastRecords.value = mutableListOf()
         chatRoomRecords.value = mutableListOf()
         Log.i("mhy", "init UserInfo")
@@ -91,6 +93,14 @@ object UserInfo {
         usersCount.value = 0
         connection.value?.stop()
         //todo
+    }
+
+    fun SendMessage(msg: Message){
+        if (msg.contentType != "file"){
+            chatRecords.value?.add(msg)
+        }
+        connection.value?.send("SendMessage",msg)
+        Log.i("mhy","send: "+ msg.toString())
     }
 
     fun AddUser(item : String){

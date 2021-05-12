@@ -74,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
             token  = data.body?.string()
             if(data.code==200){
                 UserInfo.token.postValue(token.toString())
+                UserInfo.userEmail.postValue(email.text.toString())
                 val msg = Message()
                 msg.what = 1
                 handler.sendMessage(msg)
