@@ -16,9 +16,12 @@
         <activity
             android:name=".activities.ChatActivity"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activities.UsersListActivity" />
-        <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.UsersListActivity"
+            android:label="Users"/>
+        <activity android:name=".activities.MainActivity"
+            android:label="Choose Mode"/>
+        <activity android:name=".activities.LoginActivity"
+            android:label="Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

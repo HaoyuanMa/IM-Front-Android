@@ -18,6 +18,7 @@ object UserInfo {
     val userEmail = MutableLiveData<String>()
     val token = MutableLiveData<String>()
     val chatTo = MutableLiveData<String>()
+    val broadcastHost = MutableLiveData<String>()
     val chatUsers = MutableLiveData<MutableList<String>>()
     val broadcastUsers = MutableLiveData<MutableList<String>>()
     val chatRoomUsers = MutableLiveData<MutableList<String>>()
@@ -33,13 +34,15 @@ object UserInfo {
         userEmail.value = ""
         token.value = ""
         chatTo.value = ""
+        broadcastHost.value = ""
         chatUsers.value = mutableListOf()
         broadcastUsers.value = mutableListOf()
         chatRoomUsers.value = mutableListOf()
         usersCount.value = 0
-        chatRecords.value = mutableListOf(Message("chat","mhy", mutableListOf("liyi"),"text","hello",0),Message("chat","mhy", mutableListOf("liyi"),"text","hello",0))
+        chatRecords.value = mutableListOf()
         broadcastRecords.value = mutableListOf()
         chatRoomRecords.value = mutableListOf()
+        recordCount.value = 0
         Log.i("mhy", "init UserInfo")
 
     }
@@ -76,6 +79,40 @@ object UserInfo {
                 Log.i("mhy","get chat users")
             }, mutableListOf<String>()::class.java)
 
+            conn.on("GetBroadcastUsers",{users : Any? ->
+                (users as MutableList<String>).forEach {
+                    broadcastUsers.value?.add(it)
+                    usersCount.postValue(usersCount.value?.plus(1))
+                }
+                Log.i("mhy","get broadcast users")
+            }, mutableListOf<String>()::class.java)
+
+            conn.on("GetChatRoomUsers",{users : Any? ->
+                (users as MutableList<String>).forEach {
+                    chatRoomUsers.value?.add(it)
+                    usersCount.postValue(usersCount.value?.plus(1))
+                }
+                Log.i("mhy","get chatroom users")
+            }, mutableListOf<String>()::class.java)
+
+            conn.on("ReceiveMessage",{msg : Message ->
+                //todo:show new msg
+                when(msg.type){
+                    "chat" ->{
+                        chatRecords.value?.add(msg)
+                        recordCount.postValue(recordCount.value?.plus(1))
+                    }
+                    "broadcast" ->{
+                        broadcastRecords.value?.add(msg)
+                        recordCount.postValue(recordCount.value?.plus(1))
+                    }
+                    "chatroom" -> {
+                        chatRoomRecords.value?.add(msg)
+                        recordCount.postValue(recordCount.value?.plus(1))
+                    }
+                    else -> return@on
+                }
+            },Message::class.java)
 
         }
 
@@ -90,7 +127,11 @@ object UserInfo {
         chatUsers.value?.clear()
         broadcastUsers.value?.clear()
         chatRoomUsers.value?.clear()
+        chatRecords.value?.clear()
+        broadcastRecords.value?.clear()
+        chatRoomRecords.value?.clear()
         usersCount.value = 0
+        recordCount.value = 0
         connection.value?.stop()
         //todo
     }
@@ -98,16 +139,10 @@ object UserInfo {
     fun SendMessage(msg: Message){
         if (msg.contentType != "file"){
             chatRecords.value?.add(msg)
+            recordCount.postValue(recordCount.value?.plus(1))
         }
         connection.value?.send("SendMessage",msg)
         Log.i("mhy","send: "+ msg.toString())
-    }
-
-    fun AddUser(item : String){
-        chatUsers.value!!.add(item)
-        broadcastUsers.value!!.add(item)
-        chatRoomUsers.value!!.add(item)
-        usersCount.value = usersCount.value?.plus(1)
     }
 
 

@@ -17,9 +17,9 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="590dp" />
+            android:layout_height="599dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="555"
+                android:text=""
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
                 android:textIsSelectable="false" />

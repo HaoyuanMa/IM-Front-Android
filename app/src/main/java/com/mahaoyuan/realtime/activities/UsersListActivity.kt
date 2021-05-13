@@ -18,12 +18,7 @@ class UsersListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_userslist)
 
-        UserInfo.BuildConnection()
-        UserInfo.StartConnection()
-        Log.i("mhy","conn start")
-        UserInfo.Bind()
-        UserInfo.mode.value = "chat"
-        UserInfo.SetOnline("chat")
+
 
 //        runBlocking {
 //            UserInfo.BuildConnection()
@@ -56,7 +51,7 @@ class UsersListActivity : AppCompatActivity() {
         }
 
         UserInfo.usersCount.observe(this, Observer { users ->
-            Log.i("mhy","changed")
+            Log.i("mhy","users changed")
             val newAdapter = UserInfo.chatUsers.value?.let {
                 ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
                     it.toList())
@@ -69,7 +64,7 @@ class UsersListActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
+        Log.i("mhy","stop conn")
         UserInfo.StopConnenction()
     }
 }
