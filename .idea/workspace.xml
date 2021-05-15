@@ -30,13 +30,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3e2ae86-37cf-4dc8-b434-407dc5b9b031" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/message_empty.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/UserInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/UserInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/LoginActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/adapters/MessageAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/adapters/MessageAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/message_image.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/message_image.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,10 +80,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Build Variants" />
     <property name="project.structure.proportion" value="0.17" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="show.do.not.copy.http.proxy.settings.to.gradle" value="true" />
+  </component>
+  <component name="PsdUISettings">
+    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.677250256">
@@ -217,7 +217,21 @@
       <option name="project" value="LOCAL" />
       <updated>1620903478129</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add:show msg depend on diff user">
+      <created>1621057201589</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1621057201590</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix: sync start conn">
+      <created>1621057248825</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1621057248825</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -238,13 +252,15 @@
     <MESSAGE value="add: show keyboard" />
     <MESSAGE value="add: send message" />
     <MESSAGE value="add: receive text" />
-    <option name="LAST_COMMIT_MESSAGE" value="add: receive text" />
+    <MESSAGE value="add:show msg depend on diff user" />
+    <MESSAGE value="fix: sync start conn" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: sync start conn" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="286" y="158" key="#PSD" timestamp="1620570347685">
+    <state x="286" y="158" key="#PSD" timestamp="1621071615740">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="286" y="158" key="#PSD/0.0.1536.824@0.0.1536.824" timestamp="1620570347685" />
+    <state x="286" y="158" key="#PSD/0.0.1536.824@0.0.1536.824" timestamp="1621071615740" />
     <state x="553" y="128" key="#com.intellij.ide.util.MemberChooser" timestamp="1621052102409">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -265,38 +281,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="158" key="AndroidProcessChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1620392830013" />
-    <state width="1492" height="207" key="GridCell.Tab.0.bottom" timestamp="1621055141621">
+    <state width="1492" height="207" key="GridCell.Tab.0.bottom" timestamp="1621072540383">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1492" height="207" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1621055141621" />
+    <state width="1492" height="207" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1621072540383" />
     <state width="756" height="210" key="GridCell.Tab.0.bottom/0.0.800.560@0.0.800.560" timestamp="1620655882172" />
-    <state width="1492" height="207" key="GridCell.Tab.0.center" timestamp="1621055141621">
+    <state width="1492" height="207" key="GridCell.Tab.0.center" timestamp="1621072540383">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1492" height="207" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1621055141621" />
+    <state width="1492" height="207" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1621072540383" />
     <state width="756" height="210" key="GridCell.Tab.0.center/0.0.800.560@0.0.800.560" timestamp="1620655882172" />
-    <state width="1492" height="207" key="GridCell.Tab.0.left" timestamp="1621055141620">
+    <state width="1492" height="207" key="GridCell.Tab.0.left" timestamp="1621072540383">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1492" height="207" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1621055141620" />
+    <state width="1492" height="207" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1621072540383" />
     <state width="756" height="210" key="GridCell.Tab.0.left/0.0.800.560@0.0.800.560" timestamp="1620655882172" />
-    <state width="1492" height="207" key="GridCell.Tab.0.right" timestamp="1621055141621">
+    <state width="1492" height="207" key="GridCell.Tab.0.right" timestamp="1621072540383">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1492" height="207" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1621055141621" />
+    <state width="1492" height="207" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1621072540383" />
     <state width="756" height="210" key="GridCell.Tab.0.right/0.0.800.560@0.0.800.560" timestamp="1620655882172" />
     <state x="475" y="132" key="RollbackChangesDialog" timestamp="1620308958995">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="475" y="132" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1620308958995" />
-    <state x="270" y="57" key="SettingsEditor" timestamp="1620570507808">
+    <state x="270" y="57" key="SettingsEditor" timestamp="1621071635708">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1620570507808" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1620309279041">
+    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1621071635708" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1621057344388">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1620309279041" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1621057344388" />
     <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1620309147900">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

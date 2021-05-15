@@ -1,8 +1,13 @@
 package com.mahaoyuan.realtime.adapters
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mahaoyuan.realtime.R
@@ -14,6 +19,11 @@ class MessageAdapter(var msgList: MutableList<Message>) : RecyclerView.Adapter<R
     inner class TextViewHolder(view:View) : RecyclerView.ViewHolder(view){
         val msgFrom : TextView = view.findViewById(R.id.msg_from_text)
         val textMsg : TextView = view.findViewById(R.id.msg_content_text)
+    }
+
+    inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view){
+        val msgFrom : TextView = view.findViewById(R.id.msg_from_image)
+        val imageView : ImageView = view.findViewById(R.id.msg_content_image)
     }
 
     inner class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -49,6 +59,11 @@ class MessageAdapter(var msgList: MutableList<Message>) : RecyclerView.Adapter<R
             val view = LayoutInflater.from(parent.context).inflate(R.layout.message_text,parent,false)
             TextViewHolder(view)
         }
+        else if(viewType == 2)
+        {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.message_image,parent,false)
+            ImageViewHolder(view)
+        }
         else{
             val view = LayoutInflater.from(parent.context).inflate(R.layout.message_empty,parent,false)
             EmptyViewHolder(view)
@@ -61,6 +76,14 @@ class MessageAdapter(var msgList: MutableList<Message>) : RecyclerView.Adapter<R
             is TextViewHolder -> {
                 holder.textMsg.text = ("   " + msg.content)
                 holder.msgFrom.text = (" " + msg.from)
+            }
+            is ImageViewHolder -> {
+                holder.msgFrom.text = (" " + msg.from)
+                Log.i("mhy", msg.content.split(",")[1])
+
+                val decodedString = Base64.decode(msg.content.split(",")[1], Base64.DEFAULT)
+                val decodedByte  = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                holder.imageView.setImageBitmap(decodedByte)
             }
             is EmptyViewHolder -> {
 

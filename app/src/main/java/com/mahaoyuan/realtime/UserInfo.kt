@@ -2,6 +2,7 @@ package com.mahaoyuan.realtime
 
 import android.os.Build
 import android.util.Log
+import android.util.LogPrinter
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import com.microsoft.signalr.HubConnection
@@ -45,6 +46,7 @@ object UserInfo {
         chatRoomRecords.value = mutableListOf()
         recordCount.value = 0
         Log.i("mhy", "init UserInfo")
+        Log.i("mhy",Char.SIZE_BYTES.toString())
 
     }
 
@@ -95,6 +97,7 @@ object UserInfo {
 
             conn.on("ReceiveMessage",{msg : Message ->
                 //todo:show new msg
+                Log.i("mhy",msg.content)
                 when(msg.type){
                     "chat" ->{
                         chatRecords.value?.add(msg)
@@ -135,7 +138,7 @@ object UserInfo {
     }
 
     fun SendMessage(msg: Message){
-        if (msg.contentType != "file"){
+        if (msg.contentType.toString() != "file"){
             chatRecords.value?.add(msg)
             recordCount.postValue(recordCount.value?.plus(1))
         }
