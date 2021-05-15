@@ -30,10 +30,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3e2ae86-37cf-4dc8-b434-407dc5b9b031" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/UserInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/UserInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/adapters/MessageAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/adapters/MessageAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/message_image.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/message_image.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/ChatActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mahaoyuan/realtime/activities/ChatActivity.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621057248825</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add: show image">
+      <created>1621073248138</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1621073248138</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -254,7 +258,8 @@
     <MESSAGE value="add: receive text" />
     <MESSAGE value="add:show msg depend on diff user" />
     <MESSAGE value="fix: sync start conn" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: sync start conn" />
+    <MESSAGE value="add: show image" />
+    <option name="LAST_COMMIT_MESSAGE" value="add: show image" />
   </component>
   <component name="WindowStateProjectService">
     <state x="286" y="158" key="#PSD" timestamp="1621071615740">

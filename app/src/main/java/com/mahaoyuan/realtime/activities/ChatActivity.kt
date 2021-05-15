@@ -1,7 +1,9 @@
 package com.mahaoyuan.realtime.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -64,6 +66,10 @@ class ChatActivity : AppCompatActivity() {
 
 
     fun sendText(){
+        val token = window.decorView.windowToken
+        val inputMethodManager :InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(token,InputMethodManager.HIDE_NOT_ALWAYS)
+
         val textView = findViewById<TextView>(R.id.text_msg)
         val msgFrom = UserInfo.userEmail.value.toString()
         val msgTo = when(UserInfo.mode.value){
