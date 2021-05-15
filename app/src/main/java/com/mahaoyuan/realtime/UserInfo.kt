@@ -143,7 +143,7 @@ object UserInfo {
             recordCount.postValue(recordCount.value?.plus(1))
         }
         connection.value?.send("SendMessage",msg)
-        Log.i("mhy","send: "+ msg.toString())
+        Log.i("mhy","send: " + msg.contentType)
     }
 
 

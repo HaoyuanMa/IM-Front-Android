@@ -79,7 +79,7 @@ class MessageAdapter(var msgList: MutableList<Message>) : RecyclerView.Adapter<R
             }
             is ImageViewHolder -> {
                 holder.msgFrom.text = (" " + msg.from)
-                Log.i("mhy", msg.content.split(",")[1])
+                //Log.i("mhy", msg.content.split(",")[1])
 
                 val decodedString = Base64.decode(msg.content.split(",")[1], Base64.DEFAULT)
                 val decodedByte  = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
