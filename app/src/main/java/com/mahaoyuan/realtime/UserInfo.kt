@@ -8,13 +8,14 @@ import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
 import io.reactivex.Single
 import com.mahaoyuan.realtime.models.Message
+import io.reactivex.Completable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 
 
 object UserInfo {
     val mode = MutableLiveData<String>()
-    val connection = MutableLiveData<HubConnection?>()
+    private val connection = MutableLiveData<HubConnection?>()
     val userEmail = MutableLiveData<String>()
     val token = MutableLiveData<String>()
     val chatTo = MutableLiveData<String>()
@@ -48,15 +49,12 @@ object UserInfo {
     }
 
     fun BuildConnection(){
-        connection.value = HubConnectionBuilder.create("http://10.0.2.2:12165/Hubs/MessageHub")
+        connection.value = HubConnectionBuilder.create("http://182.92.183.106:12165/Hubs/MessageHub")
             .withAccessTokenProvider(Single.defer({ Single.just(token.value) })).build()
     }
 
-    fun StartConnection(){
-        val start = connection.value?.start()
-        if (start != null) {
-            start.blockingGet()
-        }
+    fun StartConnection() : Completable? {
+        return connection.value?.start()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
