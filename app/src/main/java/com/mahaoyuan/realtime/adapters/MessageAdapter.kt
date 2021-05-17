@@ -13,10 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -25,6 +22,7 @@ import com.mahaoyuan.realtime.R
 import com.mahaoyuan.realtime.UserInfo
 import com.mahaoyuan.realtime.activities.ChatActivity
 import com.mahaoyuan.realtime.models.Message
+import org.w3c.dom.Text
 
 
 class MessageAdapter(var msgList: MutableList<Message>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -39,7 +37,10 @@ class MessageAdapter(var msgList: MutableList<Message>) : RecyclerView.Adapter<R
     }
 
     inner class FileUploadViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        //todo
+        val msgFrom : TextView = view.findViewById(R.id.msg_from_file_upload)
+        val fileTitle : TextView = view.findViewById(R.id.msg_file_title_upload)
+        val progressBar : ProgressBar = view.findViewById(R.id.uploading)
+        val finish : TextView = view.findViewById(R.id.upload_finish)
     }
 
     inner class FileDownloadViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -72,7 +73,10 @@ class MessageAdapter(var msgList: MutableList<Message>) : RecyclerView.Adapter<R
             when(msg.contentType){
                 "text" -> 1
                 "image" -> 2
-                "file" -> 3
+                "file" -> when (msg.from) {
+                    UserInfo.userEmail.value -> 3
+                    else -> 4
+                }
                 else -> 0
             }
         }
@@ -119,7 +123,18 @@ class MessageAdapter(var msgList: MutableList<Message>) : RecyclerView.Adapter<R
                 holder.imageView.setImageBitmap(decodedByte)
             }
             is FileUploadViewHolder -> {
-                //todo
+                holder.msgFrom.text = (" " + msg.from)
+                holder.fileTitle.text = if (msg.content.length > 8) {
+                    "  " + msg.content.subSequence(0, 7).toString() + "..."
+                } else {
+                    "  " + msg.content
+                }
+                if (msg.fileSize > 0){
+
+                }else{
+                    holder.progressBar.visibility = View.GONE
+                    holder.finish.visibility = View.VISIBLE
+                }
             }
             is FileDownloadViewHolder -> {
                 holder.msgFrom.text = (" " + msg.from)

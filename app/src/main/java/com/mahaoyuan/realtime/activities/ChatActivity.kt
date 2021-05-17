@@ -8,11 +8,15 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.OpenableColumns
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -44,12 +48,23 @@ class ChatActivity : AppCompatActivity() {
             var size: Long = 0
     )
 
+    val uploadHandler = object : Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: android.os.Message) {
+            when(msg.what){
+                2 ->  {
+                    adapter!!.notifyDataSetChanged()
+                }
+            }
+            super.handleMessage(msg)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         setTitle(when (UserInfo.mode.value) {
             "chat" -> ("Chat to " + UserInfo.chatTo.value)
-            "broadcast" -> (UserInfo.broadcastHost.value)
+            "broadcast" -> "Broadcast"
             "chatroom" -> "ChatRoom"
             else -> "chat"
         })
@@ -142,10 +157,23 @@ class ChatActivity : AppCompatActivity() {
                                 else -> mutableListOf()
                             }
                             val msg = Message(UserInfo.mode.value.toString(),UserInfo.userEmail.value.toString(),msgTo!!,"file",fileInfo.name,fileInfo.size)
+                            var curMsgPos = 0
                             when(UserInfo.mode.value){
-                                "chat" -> UserInfo.chatRecords.value?.add(msg)
-                                "broadcast" -> UserInfo.broadcastRecords.value?.add(msg)
-                                "chatroom" -> UserInfo.chatRoomRecords.value?.add(msg)
+                                "chat" -> {
+                                    UserInfo.chatRecords.value?.add(msg)
+                                    UserInfo.recordCount.postValue(UserInfo.recordCount.value?.plus(1))
+                                    curMsgPos = (UserInfo.chatRecords.value?.size!! - 1)
+                                }
+                                "broadcast" -> {
+                                    UserInfo.broadcastRecords.value?.add(msg)
+                                    UserInfo.recordCount.postValue(UserInfo.recordCount.value?.plus(1))
+                                    curMsgPos = (UserInfo.broadcastRecords.value?.size!! - 1)
+                                }
+                                "chatroom" -> {
+                                    UserInfo.chatRoomRecords.value?.add(msg)
+                                    UserInfo.recordCount.postValue(UserInfo.recordCount.value?.plus(1))
+                                    curMsgPos = (UserInfo.chatRoomRecords.value?.size!! - 1)
+                                }
                                 else -> {}
                             }
                             var count = 0
@@ -173,6 +201,15 @@ class ChatActivity : AppCompatActivity() {
                             stream.onComplete()
                             Log.i("mhy","send: file completed")
                             UserInfo.SendMessage(msg)
+                            when(UserInfo.mode.value){
+                                "chat" -> UserInfo.chatRecords.value?.get(curMsgPos)?.fileSize = 0
+                                "broadcast" -> UserInfo.broadcastRecords.value?.get(curMsgPos)?.fileSize = 0
+                                "chatroom" -> UserInfo.chatRoomRecords.value?.get(curMsgPos)?.fileSize = 0
+                                else -> {}
+                            }
+                            val message = android.os.Message()
+                            message.what = 2
+                            uploadHandler.sendMessage(message)
                         }
                     }
                 }
@@ -250,7 +287,4 @@ class ChatActivity : AppCompatActivity() {
         }
         return fileMetaData("", 0)
     }
-
-
-
 }

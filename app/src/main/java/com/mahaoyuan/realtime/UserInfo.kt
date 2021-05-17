@@ -104,11 +104,11 @@ object UserInfo {
                         chatRecords.value?.add(msg)
                         recordCount.postValue(recordCount.value?.plus(1))
                     }
-                    "broadcast" ->{
+                    "broadcast" -> if(msg.contentType != "file" || msg.from != userEmail.value){
                         broadcastRecords.value?.add(msg)
                         recordCount.postValue(recordCount.value?.plus(1))
                     }
-                    "chatroom" -> {
+                    "chatroom" -> if(msg.contentType != "file" || msg.from != userEmail.value){
                         chatRoomRecords.value?.add(msg)
                         recordCount.postValue(recordCount.value?.plus(1))
                     }
@@ -138,7 +138,7 @@ object UserInfo {
     }
 
     fun SendMessage(msg: Message){
-        if (msg.contentType.toString() != "file"){
+        if (msg.contentType != "file"){
             chatRecords.value?.add(msg)
             recordCount.postValue(recordCount.value?.plus(1))
         }
