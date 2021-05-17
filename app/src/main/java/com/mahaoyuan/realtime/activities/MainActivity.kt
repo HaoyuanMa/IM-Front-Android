@@ -14,12 +14,12 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
 class MainActivity : AppCompatActivity() {
-    inner class myObserver(mode: String, intent: Intent) : CompletableObserver {
+    inner class ConnenctionObserver(mode: String, intent: Intent) : CompletableObserver {
         private var _mode = mode
         private var _intent : Intent? = intent
 
         override fun onSubscribe(d: Disposable) {
-            Log.i("mhy","subscribe")
+            Log.i("mhy","subscribe conn")
         }
 
         override fun onComplete() {
@@ -62,7 +62,8 @@ class MainActivity : AppCompatActivity() {
             startMode("chatroom",intent)
         }
         monitorButton.setOnClickListener {
-
+            val intent = Intent(this@MainActivity, MonitorActivity::class.java)
+            startMode("stream",intent)
         }
     }
 
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     fun startMode(mode: String,intent: Intent){
         UserInfo.BuildConnection()
         UserInfo.Bind()
-        val observer : CompletableObserver = myObserver(mode,intent)
+        val observer : CompletableObserver = ConnenctionObserver(mode,intent)
         UserInfo.StartConnection()?.subscribe(observer)
         Log.i("mhy","conn start")
     }

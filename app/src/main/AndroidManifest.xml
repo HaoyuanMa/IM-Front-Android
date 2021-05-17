@@ -7,25 +7,28 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION" />
 
     <application
-        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/security"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RealTime">
+        <activity android:name=".activities.MonitorActivity"></activity>
         <activity
             android:name=".activities.ChatActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activities.UsersListActivity"
-            android:label="Users"/>
-        <activity android:name=".activities.MainActivity"
-            android:label="Choose Mode"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.UsersListActivity"
+            android:label="Users" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="Choose Mode" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
