@@ -109,7 +109,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if(UserInfo.mode.value != "chat"){
-            UserInfo.StopConnenction()
+            UserInfo.stopConnenction()
         }
     }
 
@@ -132,7 +132,7 @@ class ChatActivity : AppCompatActivity() {
                             else -> mutableListOf()
                         }
                         val msg = Message(UserInfo.mode.value.toString(), msgFrom, msgTo!!, "image", msgContent, 0)
-                        UserInfo.SendMessage(msg)
+                        UserInfo.sendMessage(msg)
                     }
                 }
             }
@@ -194,7 +194,7 @@ class ChatActivity : AppCompatActivity() {
                             fileStream?.close()
                             stream.onComplete()
                             Log.i("mhy","send: file completed")
-                            UserInfo.SendMessage(msg)
+                            UserInfo.sendMessage(msg)
                             when(UserInfo.mode.value){
                                 "chat" -> UserInfo.chatRecords.value?.get(curMsgPos)?.fileSize = 0
                                 "broadcast" -> UserInfo.broadcastRecords.value?.get(curMsgPos)?.fileSize = 0
@@ -227,7 +227,7 @@ class ChatActivity : AppCompatActivity() {
         }
         val msgContent = textView.text.toString()
         val msg = Message(UserInfo.mode.value.toString(), msgFrom, msgTo!!, "text", msgContent, 0)
-        UserInfo.SendMessage(msg)
+        UserInfo.sendMessage(msg)
         textView.text = ""
     }
 

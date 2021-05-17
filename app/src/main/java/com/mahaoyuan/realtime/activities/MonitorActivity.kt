@@ -1,7 +1,6 @@
 package com.mahaoyuan.realtime.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -11,16 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mahaoyuan.realtime.R
 import com.mahaoyuan.realtime.UserInfo
-import com.mahaoyuan.realtime.adapters.MessageAdapter
 import com.mahaoyuan.realtime.adapters.StreamAdapter
-import com.mahaoyuan.realtime.models.Message
-import io.reactivex.CompletableObserver
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
 
 class MonitorActivity : AppCompatActivity() {
 
-    val Streamhandler = object : Handler(Looper.getMainLooper()){
+    private val streamHandler = object : Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: android.os.Message) {
             when(msg.what){
                 3 ->  {
@@ -41,10 +35,10 @@ class MonitorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monitor)
-        setTitle("Monitor")
+        title = "Monitor"
 
         val layoutManager = LinearLayoutManager(this)
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = layoutManager
         adapter = StreamAdapter(dataStream)
         recyclerView.adapter = adapter
@@ -54,7 +48,7 @@ class MonitorActivity : AppCompatActivity() {
             dataStream.add(it)
             val msg = android.os.Message()
             msg.what = 3
-            Streamhandler.sendMessage(msg)
+            streamHandler.sendMessage(msg)
 
         },{
           Log.i("mhy",it.message.toString())

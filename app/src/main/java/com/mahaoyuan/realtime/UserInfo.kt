@@ -2,27 +2,22 @@ package com.mahaoyuan.realtime
 
 import android.os.Build
 import android.util.Log
-import android.util.LogPrinter
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
 import io.reactivex.Single
 import com.mahaoyuan.realtime.models.Message
-import com.microsoft.signalr.TransportEnum
 import io.reactivex.Completable
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-
 
 object UserInfo {
-    val host = "http://182.92.183.106:12165"
+    const val host = "http://182.92.183.106:12165"
     val mode = MutableLiveData<String>()
     val connection = MutableLiveData<HubConnection?>()
     val userEmail = MutableLiveData<String>()
     val token = MutableLiveData<String>()
     val chatTo = MutableLiveData<String>()
-    val broadcastHost = MutableLiveData<String>()
+    private val broadcastHost = MutableLiveData<String>()
     val chatUsers = MutableLiveData<MutableList<String>>()
     val broadcastUsers = MutableLiveData<MutableList<String>>()
     val chatRoomUsers = MutableLiveData<MutableList<String>>()
@@ -52,17 +47,17 @@ object UserInfo {
 
     }
 
-    fun BuildConnection(){
-        connection.value = HubConnectionBuilder.create(host + "/Hubs/MessageHub")
-            .withAccessTokenProvider(Single.defer({ Single.just(token.value) })).build()
+    fun buildConnection(){
+        connection.value = HubConnectionBuilder.create("$host/Hubs/MessageHub")
+            .withAccessTokenProvider(Single.defer { Single.just(token.value) }).build()
     }
 
-    fun StartConnection() : Completable? {
+    fun startConnection() : Completable? {
         return connection.value?.start()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun Bind(){
+    fun bind(){
         val conn = connection.value
         if (conn != null) {
             conn.on("RemoveUser", { user: String ->
@@ -73,24 +68,24 @@ object UserInfo {
                 Log.i("mhy","remove user")
             },String::class.java)
 
-            conn.on("GetChatUsers",{users : Any? ->
-                (users as MutableList<String>).forEach {
+            conn.on("GetChatUsers",{users : MutableList<String> ->
+                users.forEach {
                     chatUsers.value?.add(it)
                     usersCount.postValue(usersCount.value?.plus(1))
                 }
                 Log.i("mhy","get chat users")
             }, mutableListOf<String>()::class.java)
 
-            conn.on("GetBroadcastUsers",{users : Any? ->
-                (users as MutableList<String>).forEach {
+            conn.on("GetBroadcastUsers",{users : MutableList<String> ->
+                users.forEach {
                     broadcastUsers.value?.add(it)
                     usersCount.postValue(usersCount.value?.plus(1))
                 }
                 Log.i("mhy","get broadcast users")
             }, mutableListOf<String>()::class.java)
 
-            conn.on("GetChatRoomUsers",{users : Any? ->
-                (users as MutableList<String>).forEach {
+            conn.on("GetChatRoomUsers",{users : MutableList<String> ->
+                users.forEach {
                     chatRoomUsers.value?.add(it)
                     usersCount.postValue(usersCount.value?.plus(1))
                 }
@@ -120,12 +115,12 @@ object UserInfo {
 
     }
 
-    fun SetOnline(type :String){
+    fun setOnline(type :String){
         connection.value?.send("SetOnline",type)
         Log.i("mhy","setOnline")
     }
 
-    fun StopConnenction(){
+    fun stopConnenction(){
         chatUsers.value?.clear()
         broadcastUsers.value?.clear()
         chatRoomUsers.value?.clear()
@@ -137,7 +132,7 @@ object UserInfo {
         connection.value?.stop()
     }
 
-    fun SendMessage(msg: Message){
+    fun sendMessage(msg: Message){
         if (msg.contentType != "file"){
             chatRecords.value?.add(msg)
             recordCount.postValue(recordCount.value?.plus(1))

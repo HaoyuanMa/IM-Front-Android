@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import com.mahaoyuan.realtime.R
 import com.mahaoyuan.realtime.UserInfo
 import io.reactivex.CompletableObserver
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onComplete() {
             UserInfo.mode.postValue(_mode)
-            UserInfo.SetOnline(_mode)
+            UserInfo.setOnline(_mode)
             startActivity(_intent)
         }
 
@@ -74,10 +73,10 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun startMode(mode: String,intent: Intent){
-        UserInfo.BuildConnection()
-        UserInfo.Bind()
+        UserInfo.buildConnection()
+        UserInfo.bind()
         val observer : CompletableObserver = ConnenctionObserver(mode,intent)
-        UserInfo.StartConnection()?.subscribe(observer)
+        UserInfo.startConnection()?.subscribe(observer)
         Log.i("mhy","conn start")
     }
 }

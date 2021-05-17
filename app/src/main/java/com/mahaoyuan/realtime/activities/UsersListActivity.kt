@@ -18,18 +18,6 @@ class UsersListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_userslist)
 
-
-
-//        runBlocking {
-//            UserInfo.BuildConnection()
-//            val start = launch { UserInfo.StartConnection() }
-//            start.join()
-//            Log.i("mhy","conn start")
-//            UserInfo.connection.value?.connectionState?.let { Log.i("mhy", it.name) }
-//        }
-
-
-
         val listView = findViewById<ListView>(R.id.chat_users)
         val adapter = UserInfo.chatUsers.value?.let {
             ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
@@ -37,7 +25,7 @@ class UsersListActivity : AppCompatActivity() {
         }
 
         listView.adapter = adapter
-        listView.setOnItemClickListener { parent, view, pos, id ->
+        listView.setOnItemClickListener { _, _, pos, _ ->
             //Toast.makeText(this,"click",Toast.LENGTH_SHORT).show()
             val item = UserInfo.chatUsers.value?.get(pos)
 
@@ -49,7 +37,7 @@ class UsersListActivity : AppCompatActivity() {
 
         }
 
-        UserInfo.usersCount.observe(this, Observer { users ->
+        UserInfo.usersCount.observe(this, Observer {
             Log.i("mhy","users changed")
             val newAdapter = UserInfo.chatUsers.value?.let {
                 ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
@@ -64,6 +52,6 @@ class UsersListActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i("mhy","stop conn")
-        UserInfo.StopConnenction()
+        UserInfo.stopConnenction()
     }
 }

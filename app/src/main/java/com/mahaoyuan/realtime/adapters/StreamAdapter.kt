@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mahaoyuan.realtime.R
-import com.mahaoyuan.realtime.models.Message
 
-class StreamAdapter(var msgList: MutableList<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StreamAdapter(private var msgList: MutableList<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class TextViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val streamMsg : TextView = view.findViewById(R.id.msg_content_stream)
     }

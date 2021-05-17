@@ -20,7 +20,7 @@ import kotlin.concurrent.thread
 
 class LoginActivity : AppCompatActivity() {
 
-    val handler = object : Handler(Looper.getMainLooper()){
+    private val handler = object : Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             when(msg.what){
                 1 ->  {
@@ -39,22 +39,21 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         val loginButton : Button = findViewById(R.id.stream_generate)
         loginButton.setOnClickListener{
-
             login()
         }
 
     }
 
     private fun login() {
-        var token : String? = ""
+        var token: String?
         thread {
             val email : EditText = findViewById(R.id.email)
             val password : EditText = findViewById(R.id.password)
 
-            var jsonbody = JSONObject()
-            jsonbody.put("Email",email.text.toString())
-            jsonbody.put("Password",password.text.toString())
-            val body = jsonbody.toString().toRequestBody("application/json".toMediaType())
+            val jsonBody = JSONObject()
+            jsonBody.put("Email",email.text.toString())
+            jsonBody.put("Password",password.text.toString())
+            val body = jsonBody.toString().toRequestBody("application/json".toMediaType())
 
             val request = Request.Builder()
                     .url(UserInfo.host + "/Account/Login")
@@ -64,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
                     .build()
             val client = OkHttpClient()
             val call = client.newCall(request)
-            var data : Response
+            val data : Response
             try {
                 data = call.execute()
             }catch (e:Exception){
