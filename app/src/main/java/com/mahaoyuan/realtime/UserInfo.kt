@@ -9,14 +9,16 @@ import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
 import io.reactivex.Single
 import com.mahaoyuan.realtime.models.Message
+import com.microsoft.signalr.TransportEnum
 import io.reactivex.Completable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 
 
 object UserInfo {
+    val host = "http://182.92.183.106:12165"
     val mode = MutableLiveData<String>()
-    private val connection = MutableLiveData<HubConnection?>()
+    val connection = MutableLiveData<HubConnection?>()
     val userEmail = MutableLiveData<String>()
     val token = MutableLiveData<String>()
     val chatTo = MutableLiveData<String>()
@@ -51,7 +53,7 @@ object UserInfo {
     }
 
     fun BuildConnection(){
-        connection.value = HubConnectionBuilder.create("http://182.92.183.106:12165/Hubs/MessageHub")
+        connection.value = HubConnectionBuilder.create(host + "/Hubs/MessageHub")
             .withAccessTokenProvider(Single.defer({ Single.just(token.value) })).build()
     }
 
@@ -96,7 +98,6 @@ object UserInfo {
             }, mutableListOf<String>()::class.java)
 
             conn.on("ReceiveMessage",{msg : Message ->
-                //todo:show new msg
                 Log.i("mhy",msg.content)
                 when(msg.type){
                     "chat" ->{
@@ -134,7 +135,6 @@ object UserInfo {
         usersCount.value = 0
         recordCount.value = 0
         connection.value?.stop()
-        //todo
     }
 
     fun SendMessage(msg: Message){
@@ -145,7 +145,4 @@ object UserInfo {
         connection.value?.send("SendMessage",msg)
         Log.i("mhy","send: " + msg.contentType)
     }
-
-
-
 }

@@ -39,7 +39,6 @@ class UsersListActivity : AppCompatActivity() {
         listView.adapter = adapter
         listView.setOnItemClickListener { parent, view, pos, id ->
             //Toast.makeText(this,"click",Toast.LENGTH_SHORT).show()
-            //todo: open chat acti
             val item = UserInfo.chatUsers.value?.get(pos)
 
             if (item != null) {
@@ -47,7 +46,7 @@ class UsersListActivity : AppCompatActivity() {
                 val intent = Intent(this@UsersListActivity, ChatActivity::class.java)
                 startActivity(intent)
             }
-            //todo
+
         }
 
         UserInfo.usersCount.observe(this, Observer { users ->

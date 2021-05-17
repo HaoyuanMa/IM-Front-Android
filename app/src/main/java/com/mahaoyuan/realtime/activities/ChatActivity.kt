@@ -142,7 +142,12 @@ class ChatActivity : AppCompatActivity() {
                                 else -> mutableListOf()
                             }
                             val msg = Message(UserInfo.mode.value.toString(),UserInfo.userEmail.value.toString(),msgTo!!,"file",fileInfo.name,fileInfo.size)
-                            //todo: add records
+                            when(UserInfo.mode.value){
+                                "chat" -> UserInfo.chatRecords.value?.add(msg)
+                                "broadcast" -> UserInfo.broadcastRecords.value?.add(msg)
+                                "chatroom" -> UserInfo.chatRoomRecords.value?.add(msg)
+                                else -> {}
+                            }
                             var count = 0
                             var order:Long = 0
                             var binData : BinData
@@ -169,8 +174,6 @@ class ChatActivity : AppCompatActivity() {
                             Log.i("mhy","send: file completed")
                             UserInfo.SendMessage(msg)
                         }
-
-                        //todo: uploaad file stream
                     }
                 }
             }
