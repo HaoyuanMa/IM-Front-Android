@@ -120,7 +120,7 @@ object UserInfo {
         Log.i("mhy","setOnline")
     }
 
-    fun stopConnenction(){
+    fun stopConnection(){
         chatUsers.value?.clear()
         broadcastUsers.value?.clear()
         chatRoomUsers.value?.clear()

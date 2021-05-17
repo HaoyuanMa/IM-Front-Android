@@ -109,7 +109,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if(UserInfo.mode.value != "chat"){
-            UserInfo.stopConnenction()
+            UserInfo.stopConnection()
         }
     }
 

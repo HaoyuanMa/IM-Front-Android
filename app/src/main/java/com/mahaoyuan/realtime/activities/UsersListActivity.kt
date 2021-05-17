@@ -52,6 +52,6 @@ class UsersListActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i("mhy","stop conn")
-        UserInfo.stopConnenction()
+        UserInfo.stopConnection()
     }
 }
