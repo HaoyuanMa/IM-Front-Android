@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
         //init UserInfo
         UserInfo.userEmail.value = ""
         setContentView(R.layout.activity_login)
-        val loginButton : Button = findViewById(R.id.login)
+        val loginButton : Button = findViewById(R.id.stream_generate)
         loginButton.setOnClickListener{
 
             login()

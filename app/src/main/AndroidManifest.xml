@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RealTime">
-        <activity android:name=".activities.MonitorActivity"></activity>
+        <activity android:name=".activities.StreamGeneratorActivity"></activity>
+        <activity android:name=".activities.MonitorActivity" />
         <activity
             android:name=".activities.ChatActivity"
             android:windowSoftInputMode="adjustPan" />

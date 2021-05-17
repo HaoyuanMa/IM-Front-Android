@@ -7,17 +7,17 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.OpenableColumns
 import android.util.Base64
 import android.util.Log
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,28 +27,23 @@ import com.mahaoyuan.realtime.UserInfo
 import com.mahaoyuan.realtime.adapters.MessageAdapter
 import com.mahaoyuan.realtime.models.BinData
 import com.mahaoyuan.realtime.models.Message
-import com.microsoft.signalr.PingMessage
 import io.reactivex.subjects.ReplaySubject
-import kotlinx.coroutines.runBlocking
 import java.io.ByteArrayOutputStream
-import java.io.FileInputStream
-import java.util.*
 import kotlin.concurrent.thread
 
 
 class ChatActivity : AppCompatActivity() {
 
     var adapter : MessageAdapter? = null
+    private val imageFile = 1
+    private val commonFile = 2
 
-    val imageFile = 1
-    val commonFile = 2
-
-    inner class fileMetaData(
+    inner class FileMetaData(
             var name: String = "",
             var size: Long = 0
     )
 
-    val uploadHandler = object : Handler(Looper.getMainLooper()){
+    private val uploadHandler = object : Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: android.os.Message) {
             when(msg.what){
                 2 ->  {
@@ -59,15 +54,16 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        setTitle(when (UserInfo.mode.value) {
+        title = when (UserInfo.mode.value) {
             "chat" -> ("Chat to " + UserInfo.chatTo.value)
             "broadcast" -> "Broadcast"
             "chatroom" -> "ChatRoom"
             else -> "chat"
-        })
+        }
 
         val layoutManager = LinearLayoutManager(this)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
@@ -80,9 +76,9 @@ class ChatActivity : AppCompatActivity() {
         }
         recyclerView.adapter = adapter
 
-        UserInfo.recordCount.observe(this, Observer { record ->
+        UserInfo.recordCount.observe(this, Observer {
             Log.i("mhy", "records changed")
-            var pos = when (UserInfo.mode.value) {
+            val pos = when (UserInfo.mode.value) {
                 "chat" -> UserInfo.chatRecords.value?.size?.minus(1)!!
                 "broadcast" -> UserInfo.broadcastRecords.value?.size?.minus(1)!!
                 "chatroom" -> UserInfo.chatRoomRecords.value?.size?.minus(1)!!
@@ -148,7 +144,7 @@ class ChatActivity : AppCompatActivity() {
                             val stream = ReplaySubject.create<BinData>(40)
                             UserInfo.connection.value?.send("UploadFile", stream)
                             val fileStream = contentResolver.openInputStream(uri)
-                            val bytes = ByteArray(128*1024, { i -> 0.toByte() })
+                            val bytes = ByteArray(128*1024) { 0.toByte() }
                             val fileInfo = getFileMetaData(uri)
                             val msgTo = when (UserInfo.mode.value) {
                                 "chat" -> mutableListOf(UserInfo.chatTo.value.toString())
@@ -195,9 +191,7 @@ class ChatActivity : AppCompatActivity() {
                                 order += 1
                                 Log.i("mhy","send: file ${binData.Order}")
                             }
-                            if (fileStream != null) {
-                                fileStream.close()
-                            }
+                            fileStream?.close()
                             stream.onComplete()
                             Log.i("mhy","send: file completed")
                             UserInfo.SendMessage(msg)
@@ -218,7 +212,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
 
-    fun sendText(){
+    private fun sendText(){
         val token = window.decorView.windowToken
         val inputMethodManager :InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
@@ -237,21 +231,23 @@ class ChatActivity : AppCompatActivity() {
         textView.text = ""
     }
 
-    fun sendImage(){
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun sendImage(){
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "image/*"
         startActivityForResult(intent, imageFile)
     }
 
-    fun sendFile(){
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun sendFile(){
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "*/*"
         startActivityForResult(intent, commonFile)
     }
 
-    fun compressImage(image: Bitmap): ByteArray {
+    private fun compressImage(image: Bitmap): ByteArray {
         val baos = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         var options = 90
@@ -266,7 +262,7 @@ class ChatActivity : AppCompatActivity() {
 
 
 
-    fun getFileMetaData(uri: Uri):fileMetaData {
+    private fun getFileMetaData(uri: Uri):FileMetaData {
         val contentResolver = applicationContext.contentResolver
         val cursor: Cursor? = contentResolver.query(
                 uri, null, null, null, null, null)
@@ -282,9 +278,9 @@ class ChatActivity : AppCompatActivity() {
                     "Unknown"
                 }
                 Log.i("mhy", "Size: $size")
-                return fileMetaData(displayName, size.toLong())
+                return FileMetaData(displayName, size.toLong())
             }
         }
-        return fileMetaData("", 0)
+        return FileMetaData("", 0)
     }
 }

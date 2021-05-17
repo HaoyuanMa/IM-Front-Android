@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         val broadcastReceiveButton : Button = findViewById(R.id.btn_broadcast_receive)
         val chatRoomButton : Button = findViewById(R.id.btn_chatroom)
         val monitorButton : Button = findViewById(R.id.btn_monitor)
+        val streamGeneratorButton : Button = findViewById(R.id.btn_stream_generator)
 
         chatButton.setOnClickListener {
             val intent = Intent(this@MainActivity, UsersListActivity::class.java)
@@ -63,6 +64,10 @@ class MainActivity : AppCompatActivity() {
         }
         monitorButton.setOnClickListener {
             val intent = Intent(this@MainActivity, MonitorActivity::class.java)
+            startMode("stream",intent)
+        }
+        streamGeneratorButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, StreamGeneratorActivity::class.java)
             startMode("stream",intent)
         }
     }

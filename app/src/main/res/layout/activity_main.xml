@@ -10,34 +10,43 @@
         android:id="@+id/btn_chat"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="36dp"
         android:text="Chat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_monitor"
+        android:id="@+id/btn_stream_generator"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:text="Monitor"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="38dp"
+        android:text="StreamDataGenerator"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_chatroom"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_monitor" />
+
+    <Button
+        android:id="@+id/btn_broadcast_host"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:text="Broadcast Host"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_chat" />
 
     <Button
         android:id="@+id/btn_chatroom"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="38dp"
         android:text="ChatRoom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_broadcast_receive" />
 
@@ -45,22 +54,24 @@
         android:id="@+id/btn_broadcast_receive"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="38dp"
         android:text="Broadcast Receive"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_broadcast_host" />
 
     <Button
-        android:id="@+id/btn_broadcast_host"
+        android:id="@+id/btn_monitor"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:text="Broadcast Host"
+        android:layout_marginTop="38dp"
+        android:text="Monitor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_chat" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_chatroom"
+        app:layout_constraintVertical_bias="0.01" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
