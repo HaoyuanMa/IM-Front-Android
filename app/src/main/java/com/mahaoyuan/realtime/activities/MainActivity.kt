@@ -13,26 +13,6 @@ import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
 
 class MainActivity : AppCompatActivity() {
-    inner class ConnenctionObserver(mode: String, intent: Intent) : CompletableObserver {
-        private var _mode = mode
-        private var _intent : Intent? = intent
-
-        override fun onSubscribe(d: Disposable) {
-            Log.i("mhy","subscribe conn")
-        }
-
-        override fun onComplete() {
-            UserInfo.mode.postValue(_mode)
-            UserInfo.setOnline(_mode)
-            startActivity(_intent)
-        }
-
-        override fun onError(e: Throwable) {
-            e.message?.let { Log.i("mhy", it) }
-        }
-
-    }
-
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +51,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    inner class ConnectionObserver(mode: String, intent: Intent) : CompletableObserver {
+        private var _mode = mode
+        private var _intent : Intent? = intent
+        override fun onSubscribe(d: Disposable) {
+            Log.i("mhy","subscribe conn")
+        }
+        override fun onComplete() {
+            UserInfo.mode.postValue(_mode)
+            UserInfo.setOnline(_mode)
+            startActivity(_intent)
+        }
+        override fun onError(e: Throwable) {
+            e.message?.let { Log.i("mhy", it) }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     fun startMode(mode: String,intent: Intent){
         UserInfo.buildConnection()
         UserInfo.bind()
-        val observer : CompletableObserver = ConnenctionObserver(mode,intent)
+        val observer : CompletableObserver = ConnectionObserver(mode,intent)
         UserInfo.startConnection()?.subscribe(observer)
         Log.i("mhy","conn start")
     }

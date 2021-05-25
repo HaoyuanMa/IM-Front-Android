@@ -123,7 +123,8 @@ class ChatActivity : AppCompatActivity() {
                             BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
                         }
                         val imageByteArray = bitmap?.let { compressImage(it) }
-                        val msgContent = "data:image/;base64," + Base64.encodeToString(imageByteArray, Base64.DEFAULT)
+                        val msgContent = "data:image/;base64," +
+                                Base64.encodeToString(imageByteArray, Base64.DEFAULT)
                         val msgFrom = UserInfo.userEmail.value.toString()
                         val msgTo = when (UserInfo.mode.value) {
                             "chat" -> mutableListOf(UserInfo.chatTo.value.toString())
@@ -131,7 +132,14 @@ class ChatActivity : AppCompatActivity() {
                             "chatroom" -> UserInfo.chatRoomUsers.value
                             else -> mutableListOf()
                         }
-                        val msg = Message(UserInfo.mode.value.toString(), msgFrom, msgTo!!, "image", msgContent, 0)
+                        val msg = Message(
+                                type = UserInfo.mode.value.toString(),
+                                from = msgFrom,
+                                to = msgTo!!,
+                                contentType = "image",
+                                content = msgContent,
+                                fileSize = 0
+                        )
                         UserInfo.sendMessage(msg)
                     }
                 }
@@ -180,20 +188,20 @@ class ChatActivity : AppCompatActivity() {
                                     count = fileStream.read(bytes)
                                 }
                                 if (count < 0) break
-                                Log.i("mhy","bytes count: $count")
                                 binData = BinData(
                                         Name = fileInfo.name,
                                         From = UserInfo.userEmail.value.toString(),
-                                        Data = "data:file/;base64," + Base64.encodeToString(bytes.sliceArray(0 until count), Base64.DEFAULT),
+                                        Data = "data:file/;base64," +
+                                                Base64.encodeToString(bytes.sliceArray(0 until count), Base64.DEFAULT),
                                         Order = order
                                 )
                                 stream.onNext(binData)
                                 order += 1
-                                Log.i("mhy","send: file ${binData.Order}")
                             }
                             fileStream?.close()
                             stream.onComplete()
                             Log.i("mhy","send: file completed")
+                            //发送消息通知接收者
                             UserInfo.sendMessage(msg)
                             when(UserInfo.mode.value){
                                 "chat" -> UserInfo.chatRecords.value?.get(curMsgPos)?.fileSize = 0
@@ -201,6 +209,7 @@ class ChatActivity : AppCompatActivity() {
                                 "chatroom" -> UserInfo.chatRoomRecords.value?.get(curMsgPos)?.fileSize = 0
                                 else -> {}
                             }
+                            //发送Message通知UI线程更新View显示
                             val message = android.os.Message()
                             message.what = 2
                             uploadHandler.sendMessage(message)

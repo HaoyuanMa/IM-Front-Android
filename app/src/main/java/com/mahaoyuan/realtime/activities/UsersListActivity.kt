@@ -39,11 +39,9 @@ class UsersListActivity : AppCompatActivity() {
 
         UserInfo.usersCount.observe(this, Observer {
             Log.i("mhy","users changed")
-            val newAdapter = UserInfo.chatUsers.value?.let {
-                ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
-                    it.toList())
+            if (adapter != null) {
+                adapter.notifyDataSetChanged()
             }
-            listView.adapter = newAdapter
         })
 
 

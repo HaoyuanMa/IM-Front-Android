@@ -43,18 +43,19 @@ class MonitorActivity : AppCompatActivity() {
         adapter = StreamAdapter(dataStream)
         recyclerView.adapter = adapter
 
-        UserInfo.connection.value?.stream(String::class.java,"DownloadStream",500)?.subscribe ({
-            Log.i("mhy","receive: $it")
-            dataStream.add(it)
-            val msg = android.os.Message()
-            msg.what = 3
-            streamHandler.sendMessage(msg)
-
-        },{
-          Log.i("mhy",it.message.toString())
-        },{
-            Log.i("mhy","stream end")
-        })
-
+        UserInfo.connection.value
+                ?.stream(String::class.java,"DownloadStream",500)
+                ?.subscribe ({
+                    Log.i("mhy","receive: $it")
+                    dataStream.add(it)
+                    //发送消息，更新RecycleView
+                    val msg = android.os.Message()
+                    msg.what = 3
+                    streamHandler.sendMessage(msg)
+                },{
+                    Log.i("mhy",it.message.toString())
+                },{
+                    Log.i("mhy","stream end")
+                })
     }
 }
